@@ -1,0 +1,6 @@
+{
+  "name": "VoiceAI BD",
+  "description": "বাংলাদেশের ব্যবসার জন্য 24/7 AI Voice Agent Platform",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

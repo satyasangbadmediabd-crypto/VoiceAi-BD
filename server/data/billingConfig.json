@@ -1,0 +1,17 @@
+{
+  "bkashNumber": "01712-345678",
+  "bkashType": "Personal (Send Money)",
+  "bkashInstructions": "আপনার বিকাশ অ্যাপ থেকে Send Money অপশনে গিয়ে উপরে উল্লেখিত নম্বরে নির্ধারিত ফি প্রদান করুন। রেফারেন্স হিসেবে আপনার নাম বা মোবাইল নম্বর লিখুন এবং প্রাপ্ত TrxID নিচে প্রদান করুন।",
+  "nagadNumber": "01819-987654",
+  "nagadType": "Personal (Send Money)",
+  "nagadInstructions": "নগদ অ্যাপ অথবা *167# ডায়াল করে Send Money করুন এবং নিশ্চিতকরণের পর TrxID সাবমিট করুন।",
+  "bankDetails": "BRAC Bank PLC, Account: VoiceAI BD Technologies Ltd, A/C No: 1501204892019, Gulshan Branch, Dhaka",
+  "supportPhone": "+880 1712-345678",
+  "telegramEnabled": true,
+  "telegramBotToken": "8748748722:AAEgi1XF_FxVL5QcvpWaSZ_XqWhLpYzUhgc",
+  "telegramChatId": "6379145125",
+  "whatsappEnabled": true,
+  "whatsappNumber": "+880 1712-345678",
+  "whatsappWebhookUrl": "",
+  "whatsappApiKey": ""
+}
