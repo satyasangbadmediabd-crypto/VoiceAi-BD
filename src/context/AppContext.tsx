@@ -200,17 +200,55 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+export const getAppBasePath = (): string => {
+  if (typeof window === 'undefined') return '';
+  const pathname = window.location.pathname;
+  if (window.location.hostname.includes('github.io')) {
+    const parts = pathname.split('/').filter(Boolean);
+    if (parts.length > 0 && !parts[0].includes('.')) {
+      return '/' + parts[0];
+    }
+  }
+  return '';
+};
+
 const resolveInitialRoute = (): string => {
   if (typeof window === 'undefined') return '/login';
+
+  // 1. Check for query param from 404.html redirect: ?p=/route
+  try {
+    const searchParams = new URLSearchParams(window.location.search);
+    const redirectPath = searchParams.get('p');
+    if (redirectPath) {
+      const cleanUrl = window.location.pathname + (window.location.hash || '');
+      window.history.replaceState(null, '', cleanUrl);
+      return redirectPath.startsWith('/') ? redirectPath : '/' + redirectPath;
+    }
+  } catch {}
+
+  // 2. Check hash route: #/dashboard or #/login
   if (window.location.hash) {
     const hash = window.location.hash.replace(/^#/, '');
     if (hash.startsWith('/')) return hash;
     if (hash.length > 0) return '/' + hash;
   }
-  const path = window.location.pathname;
-  if (path && path !== '/' && !path.endsWith('/index.html')) {
-    return path;
+
+  // 3. Check pathname
+  let path = window.location.pathname;
+  const basePath = getAppBasePath();
+  if (basePath && path.startsWith(basePath)) {
+    path = path.slice(basePath.length);
   }
+
+  // Strip trailing /index.html or trailing slash
+  if (path.endsWith('/index.html')) {
+    path = path.replace(/\/index\.html$/, '');
+  }
+
+  if (path && path !== '' && path !== '/') {
+    return path.startsWith('/') ? path : '/' + path;
+  }
+
   return '/login';
 };
 
@@ -568,8 +606,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   // Sync browser url with both history pushState and hash fallback support
   const navigate = (route: string) => {
     setCurrentRoute(route);
+    const basePath = getAppBasePath();
+    const targetUrl = basePath ? `${basePath}${route.startsWith('/') ? route : '/' + route}` : route;
     try {
-      window.history.pushState({}, '', route);
+      window.history.pushState({}, '', targetUrl);
     } catch {
       window.location.hash = route;
     }
